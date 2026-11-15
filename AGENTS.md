@@ -128,7 +128,8 @@ _xMarker = toDecimal(0)`, `void 0;`, `// Money adoption:` are forbidden,
 ## 3. Session protocol
 
 ```text
-START   read AGENTS.md → docs/README.md → docs/agent/09_KNOWN_GAPS.md
+START   npm run agent:preflight (zero-egress readiness, shallow-clone & governance check)
+        read AGENTS.md → docs/agent/NEXT_AGENT_COLD_START.md → docs/README.md → docs/agent/09_KNOWN_GAPS.md
         activate the standing skills: ponytail (full level) + consult the skill
         library (docs/agent/skills/README.md) and apply the row whose "use it
         when" matches the work — a skill raises rigour, never the claim
@@ -153,6 +154,7 @@ deliver CI changes as patches in `ci-patches/` for a human.
 
 | Command                                       | Purpose                                          |
 | --------------------------------------------- | ------------------------------------------------ |
+| `npm run agent:preflight`                     | zero-egress cold-start, shallow-SHA & Brain check |
 | `npm ci --ignore-scripts`                     | install from lockfile (root); also `cd server`   |
 | `npm run tsc`                                 | type check                                       |
 | `npm run lint`                                | ESLint, zero warnings                            |

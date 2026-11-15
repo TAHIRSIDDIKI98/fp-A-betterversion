@@ -16,6 +16,7 @@ produced by a command named next to it. Do not update a number by hand.
 
 ```text
 AGENTS.md                       rules, session protocol, commands (read first)
+  → docs/agent/NEXT_AGENT_COLD_START.md 60-second bootstrap, CI triage, open blockers & Second Brain (LifeOS v4.1) map
   → docs/README.md              this page: the doc map
   → docs/agent/WORKING_AGREEMENT.md  the owner's goal as stated + the queue I work in
   → docs/VISION.md              product goal and all-in-one module map
@@ -82,6 +83,7 @@ per file and long on precision. See `docs/agent/00_INDEX.md` for the full table.
 | File                                            | Owns                                                                                                           |
 | ----------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
 | `AGENTS.md` (repo root)                         | Entry point, non-negotiable rules, session protocol.                                                           |
+| `docs/agent/NEXT_AGENT_COLD_START.md`           | Cold-start preflight (`agent:preflight`), CI/PR triage, open blockers, and Notion Second Brain v4.1 map.       |
 | `docs/agent/00_INDEX.md`                        | Precedence, source-of-truth matrix, archive boundary.                                                          |
 | `docs/agent/01_PROJECT_BRIEF.md`                | Product truth, current state, open decisions.                                                                  |
 | `docs/agent/02_ARCHITECTURE.md`                 | Stack, entry points, layers, runtime gates, config.                                                            |

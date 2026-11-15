@@ -487,7 +487,7 @@ export async function inspectFormulaWorkbookBytes(
   const keyedMetrics = new Map<string, string>();
   const sheetRows: Record<string, (string | number | null)[][]> = {};
 
-  for (const ws of (workbook as any).worksheets) {
+  for (const ws of workbook.worksheets) {
     const rows: (string | number | null)[][] = [];
 
     ws.eachRow({ includeEmpty: false }, (row: any) => {

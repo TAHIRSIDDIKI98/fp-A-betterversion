@@ -3,8 +3,10 @@ import { saveAs } from 'file-saver';
 import type { ExportConfig, ExportData } from './ExportEngine';
 import { sanitizeSpreadsheetCell, sanitizeSpreadsheetText } from '@/utils/spreadsheetSanitize';
 
-async function loadExcelJS() {
-  const mod = await import('exceljs');
+type ExcelJSModule = typeof import('exceljs') & { default?: typeof import('exceljs') };
+
+async function loadExcelJS(): Promise<typeof import('exceljs')> {
+  const mod: ExcelJSModule = await import('exceljs');
   return mod.default ?? mod;
 }
 
@@ -52,7 +54,7 @@ function rowValue(val: string | number | boolean | null | undefined) {
 export default async function exportToExcel(data: ExportData, config: ExportConfig): Promise<void> {
   const ExcelJS = await loadExcelJS();
 
-  const workbook = new (ExcelJS as any).Workbook();
+  const workbook = new ExcelJS.Workbook();
   const worksheet = workbook.addWorksheet('Sheet1');
 
   const headerRow = worksheet.addRow(sanitizeHeaders(data.headers));
@@ -106,7 +108,7 @@ export async function exportToExcelWithConditionalFormatting(
 ): Promise<void> {
   const ExcelJS = await loadExcelJS();
 
-  const workbook = new (ExcelJS as any).Workbook();
+  const workbook = new ExcelJS.Workbook();
   const worksheet = workbook.addWorksheet('Sheet1');
 
   const headerRow = worksheet.addRow(sanitizeHeaders(data.headers));

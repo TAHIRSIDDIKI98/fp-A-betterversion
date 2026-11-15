@@ -1,0 +1,76 @@
+# 0010 — Fix `ci.yml` shallow-clone `docs:verify`, per-shard coverage threshold,
+# E2E timeout guard, and wire `type-safety:ratchet` + `license:check` into CI.
+#
+# Why this patch exists (GitHub App lacks `workflows` scope):
+# 1. `docs` job (`ci.yml`): `actions/checkout` defaults to `fetch-depth: 1`, causing
+#    `npm run docs:verify` (`completion-register.mjs --check`) to fail resolving
+#    historical evidence commit `c9b84116ad408b2d574e952cd953c67b92edcbab`.
+#    Adds `fetch-depth: 0` on `docs` job checkout.
+# 2. `test` matrix job (`ci.yml`): each 1/4 shard executes ~25% of test files (~30%
+#    coverage) and fails `vitest.config.ts` 50% global thresholds before `test-merge`
+#    can combine all 4 blobs. Zeroes per-shard threshold flags while preserving full
+#    50% threshold enforcement in `test-merge`.
+# 3. `e2e` job (`ci.yml`): adds `timeout-minutes: 30` (fixing the 6h runaway noted
+#    in `docs/agent/05_COMMANDS_AND_GATES.md`).
+# 4. `money-integrity` job (`ci.yml`): adds `npm run type-safety:ratchet` and
+#    `npm run license:check` so `as any` or license regressions fail on PRs.
+#
+# Apply manually:
+#   git apply ci-patches/0010-fix-docs-depth-shard-thresholds-and-ratchets.patch
+#   git add .github/workflows/ci.yml
+#   git commit -m "ci: fix docs shallow fetch, shard coverage thresholds, e2e timeout, and ratchets"
+
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+index 318a1bf2..44d4c688 100644
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -77,10 +77,17 @@ jobs:
+         run: npm ci
+ 
+       - name: Run tests with coverage (shard ${{ matrix.shard }})
++        # Partial shards cover ~25% of files each, so per-shard 50% global
++        # coverage thresholds must be deferred to `test-merge` (which merges
++        # all 4 blobs and enforces vitest.config.ts 50% thresholds).
+         run: >-
+           node --max-old-space-size=8192 node_modules/vitest/vitest.mjs run
+           --shard=${{ matrix.shard }}/4
+           --coverage
++          --coverage.thresholds.lines=0
++          --coverage.thresholds.functions=0
++          --coverage.thresholds.branches=0
++          --coverage.thresholds.statements=0
+           --reporter=blob
+           --outputFile=.vitest-reports/blob-${{ matrix.shard }}.json
+ 
+@@ -225,6 +232,7 @@ jobs:
+     name: E2E Tests
+     needs: [build]
+     runs-on: ubuntu-latest
++    timeout-minutes: 30
+     steps:
+       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+ 
+@@ -390,6 +398,10 @@ jobs:
+     timeout-minutes: 10
+     steps:
+       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
++        with:
++          # Full history required so `docs:verify` -> `completion-register.mjs --check`
++          # can resolve historical evidence commits (e.g. c9b84116ad40).
++          fetch-depth: 0
+ 
+       - name: Setup Node.js
+         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+@@ -433,6 +445,12 @@ jobs:
+       - name: Fabrication ratchet (fail on any finding)
+         run: node scripts/fabrication-detector.mjs
+ 
++      - name: Type-safety ratchet (fail on increase above baseline)
++        run: npm run type-safety:ratchet
++
++      - name: Production dependency license policy (fail closed)
++        run: npm run license:check
++
+   summary:
+     name: CI Summary
+     if: always()

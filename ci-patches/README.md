@@ -42,6 +42,7 @@ expected for APPLIED patches, or context drifted, for SUPERSEDED patches).
 | `0007-money-fabrication-detectors.patch`          | `ci.yml`                                         | Blocking `money-integrity` job (AST money-safety ratchet + fabrication ratchet)                | APPLIED (content in tree)    | exit 1              |
 | `0008-node26-bump.patch`                          | `ci.yml`, `test-unit.yml`                        | Bump Node 22→26 (env `NODE_VERSION`; better-sqlite3 v13 N-API prebuilds are ABI-stable)        | PENDING human apply          | exit 0              |
 | `0009-node26-remaining-workflows.patch`           | `tsc.yml`, `lint.yml`, `build.yml`, `deploy.yml` | Bump Node 22→26 in the four remaining pinned workflows                                         | PENDING human apply          | exit 0              |
+| `0010-fix-docs-depth-shard-thresholds-and-ratchets.patch` | `ci.yml`                                 | Fix `docs` job shallow fetch (`fetch-depth: 0`), defer per-shard 50% coverage threshold to `test-merge`, add 30m `e2e` timeout, and enforce `type-safety:ratchet` + `license:check` | PENDING human apply | exit 0 |
 
 Related non-patch artifacts in this directory:
 `N-0004-N-0007-N-0008-N-0011-N-0013-ci-gates.patch` (historical mega-patch,
