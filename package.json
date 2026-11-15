@@ -23,6 +23,7 @@
     "bundle-check": "node scripts/bundle-check.js",
     "prepare": "husky",
     "repo:hygiene": "node scripts/repo-hygiene-check.mjs",
+    "agent:preflight": "node scripts/agent-preflight.mjs",
     "capability:inventory": "node scripts/generate-capability-truth-matrix.mjs",
     "capability:inventory:check": "node scripts/generate-capability-truth-matrix.mjs --check",
     "completion:register": "node scripts/completion-register.mjs",
@@ -65,7 +66,7 @@
     "schema:equality": "node scripts/schema-equality-check.mjs",
     "routemap:check": "node scripts/generate-route-map.js --check",
     "escape:ledger": "node scripts/escape-ledger-check.mjs",
-    "check": "npm run tsc && npm run lint && npm run format:check && npm run docs:verify && npm run engines:verify && npm run money:ast && npm run placeholder:audit && npm run determinism:ratchet && npm run palette:ratchet && npm run fabrication:audit && npm run mock-data:audit && npm run test:sharded"
+    "check": "npm run tsc && npm run lint && npm run format:check && npm run docs:verify && npm run engines:verify && npm run money:ast && npm run type-safety:ratchet && npm run license:check && npm run placeholder:audit && npm run determinism:ratchet && npm run palette:ratchet && npm run fabrication:audit && npm run mock-data:audit && npm run test:sharded"
   },
   "dependencies": {
     "@json-render/core": "^0.19.0",

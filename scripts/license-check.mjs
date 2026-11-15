@@ -27,7 +27,7 @@
  *
  * This is a policy check, not legal advice and not a global legal certification.
  */
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { execSync } from 'node:child_process';
 
@@ -40,6 +40,24 @@ const argOf = (name, fallback = null) => {
 };
 const rootOverride = argOf('root');
 const jsonFixture = argOf('npm-ls-json');
+const targetRoot = rootOverride || ROOT;
+
+function loadOptionalDeclaredSet(rootDir) {
+  try {
+    const pkg = JSON.parse(readFileSync(join(rootDir, 'package.json'), 'utf8'));
+    const set = new Set(Object.keys(pkg.optionalDependencies || {}));
+    for (const [dep, meta] of Object.entries(pkg.peerDependenciesMeta || {})) {
+      if (meta && typeof meta === 'object' && meta.optional === true) {
+        set.add(dep);
+      }
+    }
+    return set;
+  } catch {
+    return new Set();
+  }
+}
+
+const optionalDeclared = loadOptionalDeclaredSet(targetRoot);
 
 // -- policy ---------------------------------------------------------------
 const REJECTED_PATTERNS = [
@@ -141,8 +159,8 @@ let inventory;
 try {
   const output = jsonFixture
     ? readFileSync(jsonFixture, 'utf8')
-    : execSync('npm ls --omit=dev --json --all 2>/dev/null', {
-        cwd: rootOverride || ROOT,
+    : execSync('npm ls --omit=dev --json --long --all 2>/dev/null', {
+        cwd: targetRoot,
         encoding: 'utf8',
         maxBuffer: 20 * 1024 * 1024,
       });
@@ -152,7 +170,7 @@ try {
   console.error('❌ License check could not read the dependency inventory.');
   console.error(`   ${e.message}`);
   console.error(
-    '   Nothing was verified. Run `npm ci` first, or pass --npm-ls-json=<file> with `npm ls --json` output.'
+    '   Nothing was verified. Run `npm ci` first, or pass --npm-ls-json=<file> with `npm ls --json --long` output.'
   );
   console.error('   Exit 2 = unverifiable (fail closed), not a pass.');
   process.exit(2);
@@ -170,6 +188,8 @@ if (names.length === 0) {
 // -- evaluate -------------------------------------------------------------
 let rejected = 0;
 let unverified = 0;
+let verified = 0;
+let skippedOptional = 0;
 const unverifiedNames = [];
 
 for (const name of names) {
@@ -178,6 +198,17 @@ for (const name of names) {
     unverified++;
     unverifiedNames.push(`${name} (no metadata)`);
     console.error(`  ⚠️  ${name}: no metadata — CANNOT VERIFY`);
+    continue;
+  }
+
+  const installedPkgJson = join(targetRoot, 'node_modules', ...name.split('/'), 'package.json');
+  if (
+    Object.keys(info).length === 0 &&
+    optionalDeclared.has(name) &&
+    !existsSync(installedPkgJson)
+  ) {
+    skippedOptional++;
+    console.log(`  ℹ️  ${name}: uninstalled optional peer/dependency — skipped`);
     continue;
   }
 
@@ -204,12 +235,23 @@ for (const name of names) {
     unverifiedNames.push(`${name} (${declared})`);
     console.error(`  ⚠️  ${name}: ${declared} — CANNOT VERIFY (not on the allowlist)`);
   } else {
+    verified++;
     console.log(`  ✅ ${name}: ${declared}`);
   }
 }
 
+if (verified === 0 && rejected === 0 && unverified === 0) {
+  console.error('❌ License check found zero installed production dependencies to verify.');
+  console.error('   That is not a pass — an empty installed inventory cannot establish licensing.');
+  process.exit(2);
+}
+
 console.log('');
-console.log(`Checked ${names.length} production dependenc${names.length === 1 ? 'y' : 'ies'}.`);
+console.log(
+  `Checked ${verified + rejected + unverified} installed production dependenc${
+    verified + rejected + unverified === 1 ? 'y' : 'ies'
+  }${skippedOptional > 0 ? ` (${skippedOptional} uninstalled optional skipped)` : ''}.`
+);
 
 const failures = rejected + unverified;
 

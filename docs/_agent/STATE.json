@@ -4,12 +4,12 @@
   "docs_gate_passed": false,
   "human_approved_for_coding": false,
   "doc_health_score": 0,
-  "doc_health_score_status": "Not scored: 184 scoped records (141 PARTIAL, 40 HISTORICAL-NOTE, 3 GENERATED) and 56 PENDING entries; 25 active C-grade documents remain and full semantic review/Stage 1 exit are incomplete.",
+  "doc_health_score_status": "Not scored: 185 scoped records (142 PARTIAL, 40 HISTORICAL-NOTE, 3 GENERATED) and 56 PENDING entries; 25 active C-grade documents remain and full semantic review/Stage 1 exit are incomplete.",
   "completed_stages": [
     "STAGE_0_BOOTSTRAP"
   ],
   "doc_remediation_queue": [
-    "Complete semantic review of the 56 PENDING live-document entries in docs/_agent/LIVE_DOCS_REVIEW.csv; investigate 25 active C-grade documents (governance-evidence manifest, six ADRs, encryption-at-rest and security-header policies, Cascade-Hold ledger, rate-limit policy, Undo/Redo specification, SOC 2 overview, SOX-controls page, Q5.1\u2013Q5.3 accessibility records, Q5.3 fixation follow-up, Q5.7 Boardroom scoping/spec, Q5.8/Q5.9 scopes, Q5.10 mobile, Q5.11 persona, and A11Y waivers) while preserving dated evidence.",
+    "Complete semantic review of the 56 PENDING live-document entries in docs/_agent/LIVE_DOCS_REVIEW.csv; investigate 25 active C-grade documents (governance-evidence manifest, six ADRs, encryption-at-rest and security-header policies, Cascade-Hold ledger, rate-limit policy, Undo/Redo specification, SOC 2 overview, SOX-controls page, Q5.1–Q5.3 accessibility records, Q5.3 fixation follow-up, Q5.7 Boardroom scoping/spec, Q5.8/Q5.9 scopes, Q5.10 mobile, Q5.11 persona, and A11Y waivers) while preserving dated evidence.",
     "Continue O9 reconciliation against DEC-103, 104 route entityScope objects, stale cited titles, the period-scope capability proves sentence, and verifier schema; do not weaken the gate or change test/gate code while docs_gate_passed is false.",
     "Finish deeper source/test traceability for all 18 modules, 12 industries, import paths, and ten invariants; preserve UNVERIFIED boundaries for inaccessible sources.",
     "Resolve MDEC-006 naming/authority conflict between docs/adr/ and the proposed docs/decisions/ before authoring ADRs.",
@@ -21,7 +21,7 @@
     "docs/_agent/LIVE_DOCS_REVIEW.csv (complete path inventory; 147 entries remain pending review)",
     "docs/security/ and docs/compliance/: prior seven-document batch plus the final eight pending records reviewed and reclassified; docs/_agent/GLOSSARY.md updated with bounded privacy terminology; Stage 1 remains partial.",
     "docs/a11y/: first six pending keyboard-navigation, focus-restore, session-timeout, live-region, motion-audit, and motion-pattern records reviewed on 2026-11-07; all six PARTIAL (3 B, 3 C), Stage 1 remains partial.",
-    "docs/a11y/: remaining eight pending Q5.3 fixation, Q5.7\u2013Q5.11, and waiver records reviewed on 2026-11-07; all eight PARTIAL / grade C. See AUD-030\u2013033; Stage 1 remains partial.",
+    "docs/a11y/: remaining eight pending Q5.3 fixation, Q5.7–Q5.11, and waiver records reviewed on 2026-11-07; all eight PARTIAL / grade C. See AUD-030–033; Stage 1 remains partial.",
     "docs/agent-fleet/FLEET_OPERATING_MODEL.md reviewed on 2026-11-10 and classified HISTORICAL-NOTE / H; no longer an active fleet proposal or decision request.",
     "docs/agent-squad/SQUAD_ACTIVITY_AND_TRACKER.md reviewed 2026-11-10 and classified HISTORICAL-NOTE / H; roster, allocations, and test tallies are not current evidence.",
     "docs/agent-squad/SQUAD_AGREEMENT.md reviewed 2026-11-10 and classified HISTORICAL-NOTE / H; conditional squad instructions are not active unless a squad is explicitly activated.",
@@ -55,7 +55,7 @@
     "docs/agent/skills/testing-strategy.md reviewed 2026-11-10; removed unverified runtime estimate and clarified coverage execution.",
     "docs/agent/skills/gates-and-ratchets.md reviewed 2026-11-10 against current scripts and governing rules.",
     "docs/agent/skills/verification-before-completion.md reviewed 2026-11-10; CI status now requires current check evidence.",
-    "docs/agent/skills/owner-pack-completion.md reviewed 2026-11-10; updated to accepted DEC-103/104/105 and open R1\u2013R12.",
+    "docs/agent/skills/owner-pack-completion.md reviewed 2026-11-10; updated to accepted DEC-103/104/105 and open R1–R12.",
     "docs/agent/skills/release-candidate-checklist.md reviewed 2026-11-10; corrected open decisions, command names, safety claims, and coverage distinction.",
     "docs/agent/skills/finishing-a-branch.md reviewed 2026-11-10; removed hazardous generic hard-reset recovery, false gh edit assertion, and unmeasured suite duration.",
     "docs/agent/skills/full-test-suite-execution.md reviewed 2026-11-10 against test runner; removed stale file count and invented shard assignments.",
@@ -135,8 +135,8 @@
     "2026-11-07 A11Y review: Q5.1 keyboard latency evidence is synthetic, Q5.2 closed focus-restoration claims exceed observed production wiring/timing, and Q5.3 timeout policy remains an unratified proposal. Q5.4/Q5.5 foundations are partial; browser/screen-reader evidence was not run. Focused test command could not load Vitest because node_modules/vitest/vitest.mjs is absent.",
     "2026-11-07 remaining A11Y review: all eight records are PARTIAL/C. Found synthetic session-announcement tests vs. auth behavior, unimplemented proposed Boardroom/audit/collaboration details, Phase 2/3 plans paired with green hard-gate checkboxes, a reversed mobile screen-reader/platform pairing, 18-vs-19 persona and 294-vs-304 matrix discrepancies, and a manual waiver policy not consumable by blocking CI. No A11Y tests ran because Vitest is absent; no external WCAG/demographic research or owner ratification was inspected."
   ],
-  "last_updated": "2026-11-10",
-  "branch": "arena/87cec58b-fp-a-betterversion",
+  "last_updated": "2026-11-15",
+  "branch": "arena/987157a7-fp-a-betterversion",
   "baseline": {
     "documentation_and_specification_files_including_archive": 549,
     "strict_docs_links_before_bootstrap_repairs": "Failed: one broken Markdown link and four broken backtick citations.",
@@ -145,16 +145,16 @@
   },
   "stage_1_status": "IN_PROGRESS_PARTIAL",
   "current_inventory": {
-    "captured_at": "2026-11-10",
-    "documentation_files_including_archive": 561,
-    "markdown_files_including_archive": 546,
+    "captured_at": "2026-11-15",
+    "documentation_files_including_archive": 562,
+    "markdown_files_including_archive": 547,
     "archived_files": 321,
     "archived_markdown_files": 313,
-    "live_files_excluding_archive": 240,
-    "live_markdown_files": 233,
+    "live_files_excluding_archive": 241,
+    "live_markdown_files": 234,
     "live_other_files": 7,
     "review_status_counts": {
-      "PARTIAL": 141,
+      "PARTIAL": 142,
       "HISTORICAL-NOTE": 40,
       "GENERATED-SOURCE-REVIEWED": 2,
       "GENERATED-RENDERED": 1,
@@ -162,13 +162,13 @@
     }
   },
   "latest_validation": {
-    "captured_at": "2026-11-10",
-    "docs_verify": "PASS 2026-11-10 after deepening the shallow local main history to restore two cited evidence commit objects: 711 completion rows; three known non-failing annex warnings remain (legacy 110-section header vs DEC-034 scope 200; sections 108\u2013110 unresolved; sections 108\u2013200 SOURCE OWED).",
+    "captured_at": "2026-11-15",
+    "docs_verify": "PASS 2026-11-10 after deepening the shallow local main history to restore two cited evidence commit objects: 711 completion rows; three known non-failing annex warnings remain (legacy 110-section header vs DEC-034 scope 200; sections 108–110 unresolved; sections 108–200 SOURCE OWED).",
     "strict_docs_links": "PASS 2026-11-10: 0 broken links and 0 broken citations after six owner-skill review citations were qualified.",
     "completion_register_check": "PASS mechanically through npm run docs:verify: 711 rows; 115 SUPPORTED, 374 EXPERIMENTAL, 2 RETIRED, 220 NOT_BUILT, 0 BLOCKED-ON-OWNER.",
     "governance_evidence_check": "PASS mechanically 2026-11-10 through npm run docs:verify: 104 routes / 312 state claims, 81 capabilities / 255 claims, 2 census claims; O9 semantic discrepancies remain unreconciled.",
     "git_diff_check": "PASS 2026-11-10 after documentation-only changes.",
-    "audit_citation_inventory_check": "PASS custom reconciliation 2026-11-10: 240 ledger rows; 141 PARTIAL, 40 HISTORICAL-NOTE, 3 GENERATED, 56 PENDING; all line counts match; state counts and fixed branch match; gates remain false.",
+    "audit_citation_inventory_check": "PASS custom reconciliation 2026-11-15: 241 ledger rows; 142 PARTIAL, 40 HISTORICAL-NOTE, 3 GENERATED, 56 PENDING; all line counts match; gates remain false.",
     "focused_a11y_test_run": "BLOCKED before test collection 2026-11-07: npm run test:a11y -- --reporter=dot could not load node_modules/vitest/vitest.mjs; no test assertions executed and dependencies were not installed.",
     "scope_note": "2026-11-10 documentation-only review: sixteen workflow, UI, debugging, state, plan, import, and verification skills corrected; six Ponytail owner skills reviewed and kept verbatim; upstream benchmark figures checked against the dated source and not treated as project performance. Inventory: 240 files, 141 PARTIAL, 40 HISTORICAL-NOTE, 3 GENERATED, 56 PENDING. Stage 1 remains partial; coding gates false; no application source/tests/gates changed. Root dependencies were installed for verification; 4 import-related test files (101 tests), tsc, and lint passed. Production dependency audit remains red (2 high, 11 moderate); no dependency change was made. This and the docs/coding gates block merge.",
     "vitest_attempt": "`npm run test:sharded -- --help` unexpectedly invoked all eight shards because the runner has no --help mode; all stopped before test collection: node_modules/vitest/vitest.mjs is absent. No test assertions ran.",
@@ -176,6 +176,9 @@
     "typescript": "PASS 2026-11-10: npm run tsc.",
     "lint": "PASS 2026-11-10: npm run lint.",
     "targeted_import_tests": "PASS 2026-11-10: 4 files / 101 tests (glUploadStore, GLUploadPage deep, GLUploadPage D365 integration, universalImportEngine governance).",
-    "production_dependency_audit": "FAIL 2026-11-10: npm run audit:prod reports 13 production advisories (11 moderate, 2 high: follow-redirects and zod; transitive glob/minimatch advisories); full npm audit reports 20 (17 moderate, 3 high). No dependency changes made."
+    "production_dependency_audit": "FAIL 2026-11-10: npm run audit:prod reports 13 production advisories (11 moderate, 2 high: follow-redirects and zod; transitive glob/minimatch advisories); full npm audit reports 20 (17 moderate, 3 high). No dependency changes made.",
+    "type_safety_ratchet": "PASS 2026-11-15 (DEC-106): 48 escapes vs 48 baseline (0 as any, 48 as unknown as across 410 financial modules).",
+    "license_check": "PASS 2026-11-15 (DEC-106): 39 installed production dependencies verified via npm ls --omit=dev --json --long --all (1 uninstalled optional peer skipped).",
+    "agent_preflight": "PASS 2026-11-15 (DEC-106): zero-egress readiness check (Node v22.22.3, root node_modules present, evidence SHA c9b8411 present, 241 live docs reconciled)."
   }
 }

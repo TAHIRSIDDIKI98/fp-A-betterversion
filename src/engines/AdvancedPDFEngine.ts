@@ -1,18 +1,24 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * AdvancedPDFEngine — Professional PDF generation for FinPlan Pro
  * Features: TOC, watermarks, headers/footers, charts, financial tables
  * Bundle diet: jsPDF is dynamically imported so ~600KB stays in lazy pdf-vendor chunk
  */
 
+import type { jsPDF } from 'jspdf';
 import { formatMoney } from '../utils/money';
 import { createCanvas, createImage } from '@/utils/canvasFactory';
 
-type JsPDF = any;
+type JsPDF = jsPDF;
+type JsPDFConstructor = typeof jsPDF;
+type JsPDFModule = { default?: JsPDFConstructor; jsPDF?: JsPDFConstructor };
 
-async function loadJsPDF(): Promise<any> {
-  const mod = await import('jspdf');
-  return (mod.default ?? mod.jsPDF ?? mod) as any;
+async function loadJsPDF(): Promise<JsPDFConstructor> {
+  const mod: JsPDFModule = await import('jspdf');
+  const ctor = mod.default ?? mod.jsPDF;
+  if (!ctor) {
+    throw new Error('Failed to resolve jsPDF constructor from jspdf module');
+  }
+  return ctor;
 }
 
 interface TOCEntry {

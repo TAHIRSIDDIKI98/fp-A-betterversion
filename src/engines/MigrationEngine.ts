@@ -6,9 +6,11 @@
 
 import { nowISO, nowMs } from '@/utils/clock';
 
-async function loadExcelJS() {
-  const mod = await import('exceljs');
-  return (mod.default ?? mod) as any;
+type ExcelJSModule = typeof import('exceljs') & { default?: typeof import('exceljs') };
+
+async function loadExcelJS(): Promise<typeof import('exceljs')> {
+  const mod: ExcelJSModule = await import('exceljs');
+  return mod.default ?? mod;
 }
 
 export type MigrationSource = 'excel' | 'planful' | 'adaptive' | 'anaplan' | 'csv' | 'unknown';

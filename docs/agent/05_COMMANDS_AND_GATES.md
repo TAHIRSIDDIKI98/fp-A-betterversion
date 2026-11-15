@@ -7,8 +7,10 @@ sandbox; a laptop is faster.
 ## Setup
 
 ```bash
+npm run agent:preflight             # <1s zero-egress check: Node, node_modules, shallow SHA c9b8411, STATE.json & Second Brain IDs
 npm ci --ignore-scripts             # root (837 packages); --ignore-scripts skips husky install
 cd server && npm ci --ignore-scripts && cd ..
+# If shallow clone is missing historical evidence SHA: git fetch origin c9b84116ad408b2d574e952cd953c67b92edcbab
 # If you want the git hooks: npx husky   (pre-commit = eslint/tsc/prettier on staged + secret scan)
 ```
 

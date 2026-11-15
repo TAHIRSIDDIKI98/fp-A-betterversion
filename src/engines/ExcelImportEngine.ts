@@ -9,8 +9,10 @@ import { parseCSVRecords } from '@/utils/csv';
 import { sanitizeForDisplay } from '@/utils/security';
 import { subtractMoney, sumMoney, roundTo, toDecimal, formatMoney } from '@/utils/money';
 
-async function loadExcelJS() {
-  const mod = await import('exceljs');
+type ExcelJSModule = typeof import('exceljs') & { default?: typeof import('exceljs') };
+
+async function loadExcelJS(): Promise<typeof import('exceljs')> {
+  const mod: ExcelJSModule = await import('exceljs');
   return mod.default ?? mod;
 }
 
@@ -205,7 +207,7 @@ export class ExcelImportEngine {
     const buffer = await file.arrayBuffer();
     const format = this.detectFormat(file.name);
     const ExcelJS = await loadExcelJS();
-    const workbook = new (ExcelJS as any).Workbook();
+    const workbook = new ExcelJS.Workbook();
 
     if (format === 'csv') {
       // Browser-compatible CSV parsing — no Node streams needed

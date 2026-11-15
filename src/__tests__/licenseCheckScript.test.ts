@@ -169,3 +169,70 @@ describe('license-check — cannot verify at all exits 2, never 0', () => {
     expect(r.stderr).toContain('zero production dependencies');
   });
 });
+
+describe('license-check — optional peer dependencies & live npm ls (--long)', () => {
+  it('skips an uninstalled optional peer dependency ({}) while still failing closed on non-optional {}', () => {
+    if (!tmpDir) tmpDir = mkdtempSync(join(tmpdir(), 'license-check-opt-'));
+    writeFileSync(
+      join(tmpDir, 'package.json'),
+      JSON.stringify({
+        name: 'fixture-app',
+        dependencies: { react: '19.0.0', broken: '1.0.0' },
+        peerDependencies: { '@opt/uninstalled': '^1.0.0' },
+        peerDependenciesMeta: { '@opt/uninstalled': { optional: true } },
+      }),
+      'utf8'
+    );
+    const okFixture = join(tmpDir, 'npm-ls-ok.json');
+    writeFileSync(
+      okFixture,
+      JSON.stringify({
+        dependencies: {
+          react: { version: '19.0.0', license: 'MIT' },
+          '@opt/uninstalled': {},
+        },
+      }),
+      'utf8'
+    );
+
+    const okOut = execFileSync('node', [SCRIPT, `--root=${tmpDir}`, `--npm-ls-json=${okFixture}`], {
+      cwd: ROOT,
+      encoding: 'utf8',
+      stdio: 'pipe',
+    });
+    expect(okOut).toContain('License check passed');
+
+    // Non-optional `{}` must STILL fail closed (exit 1).
+    const badFixture = join(tmpDir, 'npm-ls-bad.json');
+    writeFileSync(
+      badFixture,
+      JSON.stringify({
+        dependencies: {
+          react: { version: '19.0.0', license: 'MIT' },
+          broken: {},
+        },
+      }),
+      'utf8'
+    );
+    let badStatus = 0;
+    try {
+      execFileSync('node', [SCRIPT, `--root=${tmpDir}`, `--npm-ls-json=${badFixture}`], {
+        cwd: ROOT,
+        encoding: 'utf8',
+        stdio: 'pipe',
+      });
+    } catch (e) {
+      badStatus = (e as { status?: number }).status ?? -1;
+    }
+    expect(badStatus).toBe(1);
+  });
+
+  it('passes against the live repository production dependency tree (--long)', () => {
+    const stdout = execFileSync('node', [SCRIPT], {
+      cwd: ROOT,
+      encoding: 'utf8',
+      stdio: 'pipe',
+    });
+    expect(stdout).toContain('License check passed');
+  });
+});
